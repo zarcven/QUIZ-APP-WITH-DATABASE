@@ -26,5 +26,33 @@ if ($conn -> connect_error){
 </head>
 <body>
     <h1>Quiz App</h1>
+    
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Process quiz submission
+        $score = 0;
+        $total_questions = 0;
+
+        foreach ($_POST as $question_id => $selected_option) {
+            $question_id = intval($question_id);
+            $selected_option = intval($selected_option);
+
+            $query = $conn->prepare("SELECT correct_option FROM questions WHERE id = ?");
+            $query->bind_param("i", $question_id);
+            $query->execute();
+            $query->bind_result($correct_option);
+            $query->fetch();
+            $query->close();
+
+            if ($selected_option === $correct_option) {
+                $score++;
+            }
+            $total_questions++;
+        }
+
+        echo "<div class='result'>Your score: $score / $total_questions</div>";
+    }
+$conn ->close();
+?>
 </body>
 </html>
