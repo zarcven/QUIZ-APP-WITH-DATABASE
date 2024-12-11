@@ -29,7 +29,6 @@ if ($conn -> connect_error){
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Process quiz submission
         $score = 0;
         $total_questions = 0;
 
@@ -37,22 +36,25 @@ if ($conn -> connect_error){
             $question_id = intval($question_id);
             $selected_option = intval($selected_option);
 
-            $query = $conn->prepare("SELECT correct_option FROM questions WHERE id = ?");
+            $query = $conn->prepare("SELECT question, option1, option2, option3, option4, correct_option FROM questions WHERE id = ?");
             $query->bind_param("i", $question_id);
             $query->execute();
-            $query->bind_result($correct_option);
+            $query->bind_result($question, $option1, $option2, $option3, $option4, $correct_option);
             $query->fetch();
             $query->close();
 
             if ($selected_option === $correct_option) {
                 $score++;
+            } else {
+                echo "<div class='wrong'><p>Question: $question</p>";
+                echo "<p>Your Answer: " . ${"option" . $selected_option} . "</p>";
+                echo "<p>Correct Answer: " . ${"option" . $correct_option} . "</p></div>";
             }
             $total_questions++;
         }
 
         echo "<div class='result'>Your score: $score / $total_questions</div>";
     } else {
-        // Display quiz form
         $result = $conn->query("SELECT * FROM questions");
         if ($result->num_rows > 0) {
             echo "<form method='POST' action=''>";
@@ -74,7 +76,8 @@ if ($conn -> connect_error){
             echo "<p>No questions available.</p>";
         }
     }
-$conn ->close();
-?>
+
+    $conn->close();
+    ?>
 </body>
 </html>
