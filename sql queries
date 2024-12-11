@@ -1,0 +1,22 @@
+CREATE TABLE questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    question TEXT NOT NULL,
+    option1 VARCHAR(255) NOT NULL,
+    option2 VARCHAR(255) NOT NULL,
+    option3 VARCHAR(255) NOT NULL,
+    option4 VARCHAR(255) NOT NULL,
+    correct_option INT NOT NULL
+);
+
+INSERT INTO questions (question, option1, option2, option3, option4, correct_option) VALUES
+('What is the largest planet in our solar system?', 'Jupiter', 'Mars', 'Earth', 'Venus', 1),
+('What is the chemical symbol for water?', 'H2O', 'CO2', 'NaCl', 'O2', 1),
+('Which continent is known as the \"Dark Continent\"?', 'Asia', 'Africa', 'Antarctica', 'Europe', 2),
+('What year did World War II end?', '1939', '1945', '1950', '1960', 2),
+('Who wrote the play \"Romeo and Juliet\"?', 'William Shakespeare', 'Charles Dickens', 'Jane Austen', 'Leo Tolstoy', 1),
+('What is the process by which plants make food?', 'Photosynthesis', 'Respiration', 'Digestion', 'Fermentation', 1),
+('Who painted the Mona Lisa?', 'Vincent van Gogh', 'Pablo Picasso', 'Leonardo da Vinci', 'Claude Monet', 3),
+('Which gas is most abundant in Earth\'s atmosphere?', 'Oxygen', 'Nitrogen', 'Carbon Dioxide', 'Hydrogen', 2),
+('What is the capital city of Japan?', 'Beijing', 'Tokyo', 'Seoul', 'Bangkok', 2),
+('Which programming language is primarily used for data analysis?', 'Java', 'Python', 'C#', 'Ruby', 2);
+
