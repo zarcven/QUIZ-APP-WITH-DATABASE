@@ -51,7 +51,7 @@ if ($conn->connect_error) {
             if ($selected_option === $correct_option) {
                 $score++;
             } else {
-                echo "<div class='wrong'><p>Question: $question</p>";
+                echo "<div class='wrong'><p>Question: " . htmlspecialchars($question) . "</p>";
                 echo "<p>Your Answer: " . htmlspecialchars(${"option" . $selected_option}) . "</p>";
                 echo "<p>Correct Answer: " . htmlspecialchars(${"option" . $correct_option}) . "</p></div>";
             }
