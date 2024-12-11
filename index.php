@@ -26,7 +26,7 @@ if ($conn -> connect_error){
 </head>
 <body>
     <h1>Quiz App</h1>
-    
+
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Process quiz submission
@@ -51,6 +51,28 @@ if ($conn -> connect_error){
         }
 
         echo "<div class='result'>Your score: $score / $total_questions</div>";
+    } else {
+        // Display quiz form
+        $result = $conn->query("SELECT * FROM questions");
+        if ($result->num_rows > 0) {
+            echo "<form method='POST' action=''>";
+
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='question'>";
+                echo "<p>" . $row['question'] . "</p>";
+                for ($i = 1; $i <= 4; $i++) {
+                    echo "<label>";
+                    echo "<input type='radio' name='" . $row['id'] . "' value='" . $i . "' required> " . $row['option' . $i] . "";
+                    echo "</label><br>";
+                }
+                echo "</div>";
+            }
+
+            echo "<button type='submit'>Submit</button>";
+            echo "</form>";
+        } else {
+            echo "<p>No questions available.</p>";
+        }
     }
 $conn ->close();
 ?>
