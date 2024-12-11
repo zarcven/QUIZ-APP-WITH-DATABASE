@@ -22,6 +22,12 @@ if ($conn -> connect_error){
         .result {
             font-weight: bold;
         }
+        .wrong {
+            color: red;
+        }
+        .correct {
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -29,6 +35,7 @@ if ($conn -> connect_error){
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Process quiz submission
         $score = 0;
         $total_questions = 0;
 
@@ -47,24 +54,25 @@ if ($conn -> connect_error){
                 $score++;
             } else {
                 echo "<div class='wrong'><p>Question: $question</p>";
-                echo "<p>Your Answer: " . ${"option" . $selected_option} . "</p>";
-                echo "<p>Correct Answer: " . ${"option" . $correct_option} . "</p></div>";
+                echo "<p>Your Answer: " . htmlspecialchars(${"option" . $selected_option}) . "</p>";
+                echo "<p>Correct Answer: " . htmlspecialchars(${"option" . $correct_option}) . "</p></div>";
             }
             $total_questions++;
         }
 
         echo "<div class='result'>Your score: $score / $total_questions</div>";
     } else {
+        // Display quiz form
         $result = $conn->query("SELECT * FROM questions");
         if ($result->num_rows > 0) {
             echo "<form method='POST' action=''>";
 
             while ($row = $result->fetch_assoc()) {
                 echo "<div class='question'>";
-                echo "<p>" . $row['question'] . "</p>";
+                echo "<p>" . htmlspecialchars($row['question']) . "</p>";
                 for ($i = 1; $i <= 4; $i++) {
                     echo "<label>";
-                    echo "<input type='radio' name='" . $row['id'] . "' value='" . $i . "' required> " . $row['option' . $i] . "";
+                    echo "<input type='radio' name='" . $row['id'] . "' value='" . $i . "' required> " . htmlspecialchars($row['option' . $i]) . "";
                     echo "</label><br>";
                 }
                 echo "</div>";
