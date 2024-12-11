@@ -1,7 +1,7 @@
 <?php
-$conn = new mysqli ('localhost', 'root', 'zarc123', 'quiz_app');
-if ($conn -> connect_error){
-    die("connection failed". $conn->connect_error);
+$conn = new mysqli('localhost', 'root', '', 'quiz_app');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
 
@@ -32,10 +32,8 @@ if ($conn -> connect_error){
 </head>
 <body>
     <h1>Quiz App</h1>
-
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Process quiz submission
         $score = 0;
         $total_questions = 0;
 
@@ -62,7 +60,6 @@ if ($conn -> connect_error){
 
         echo "<div class='result'>Your score: $score / $total_questions</div>";
     } else {
-        // Display quiz form
         $result = $conn->query("SELECT * FROM questions");
         if ($result->num_rows > 0) {
             echo "<form method='POST' action=''>";
